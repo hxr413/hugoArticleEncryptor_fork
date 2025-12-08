@@ -2,13 +2,12 @@ package data
 
 import (
 	"embed"
+	"github.com/hotjuicew/hugoArticleEncryptor/crypto"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/hotjuicew/hugoArticleEncryptor/crypto"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -76,6 +75,7 @@ func getData(path string) {
 		return
 	}
 
+	doc.Find("body").AppendHtml(`<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>`)
 	doc.Find("body").AppendHtml(`<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>`)
 	doc.Find("body").AppendHtml(`<script src="/js/AESDecrypt.js"></script>`)
 	secretElements := doc.Find("div#secret")
@@ -83,7 +83,7 @@ func getData(path string) {
 		return
 	}
 	passwordAttr, _ := secretElements.Attr("password")
-	innerText, _ := secretElements.Html()
+	innerText := secretElements.Text()
 
 	//在html变量中删除password属性，并且删除innerText
 	secretElements.RemoveAttr("password")
