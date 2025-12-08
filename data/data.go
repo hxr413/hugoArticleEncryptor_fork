@@ -2,12 +2,13 @@ package data
 
 import (
 	"embed"
-	"github.com/hotjuicew/hugoArticleEncryptor/crypto"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/hotjuicew/hugoArticleEncryptor/crypto"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -82,7 +83,7 @@ func getData(path string) {
 		return
 	}
 	passwordAttr, _ := secretElements.Attr("password")
-	innerText := secretElements.Text()
+	innerText, _ := secretElements.Html()
 
 	//在html变量中删除password属性，并且删除innerText
 	secretElements.RemoveAttr("password")
