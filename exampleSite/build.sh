@@ -2,7 +2,7 @@ set -x
 
 hugo version
 
-curl -sSfL -o hugoArticleEncryptor "https://github.com/hotjuicew/hugoArticleEncryptor/releases/download/stable/hugoArticleEncryptor-linux-amd64"
+curl -sSfL -o hugoArticleEncryptor "https://github.com/hxr413/hugoArticleEncryptor_fork/releases/download/latest/hugoArticleEncryptor-linux-amd64"
 
 chmod +x ./hugoArticleEncryptor
 

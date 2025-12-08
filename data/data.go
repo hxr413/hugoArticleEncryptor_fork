@@ -75,7 +75,6 @@ func getData(path string) {
 		return
 	}
 
-	doc.Find("body").AppendHtml(`<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>`)
 	doc.Find("body").AppendHtml(`<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>`)
 	doc.Find("body").AppendHtml(`<script src="/js/AESDecrypt.js"></script>`)
 	secretElements := doc.Find("div#secret")

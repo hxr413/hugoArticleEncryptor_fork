@@ -65,17 +65,18 @@ function checkPassword() {
     const password = passwordInput.value;
     decryption(password)
 }
+
 function decryption(password) {
     let secretElement = document.getElementById('secret');
     let ciphertext = secretElement.innerText;
     AESDecrypt(ciphertext, password).then(plaintext => {
-        document.getElementById("verification").style.display = "none";
-        let verificationElement = document.getElementById('verification');
-        let htmlText =  marked.parse(plaintext);
-        verificationElement.insertAdjacentHTML('afterend', htmlText);
-        if (localStorage.getItem(title) !==password)localStorage.setItem(title, password);
+        document.getElementById('verification').remove();
+        secretElement.innerHTML = plaintext;
+        secretElement.style.display = '';
+        
+        if (localStorage.getItem(title) !== password) localStorage.setItem(title, password);
     }).catch(error => {
         alert("Incorrect password. Please try again.");
-        console.error("Failed to decrypt",error);
+        console.error("Failed to decrypt", error);
     });
 }
