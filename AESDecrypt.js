@@ -51,14 +51,6 @@ function hexToBytes(hexString) {
 }
 console.log("js load");
 
-marked.setOptions({
-    gfm: true,
-    breaks: false,
-    headerIds: true,
-    mangle: false,
-    sanitize: false
-});
-
 let title = document.title
 if (localStorage.getItem(title)!== null) {
     decryption(localStorage.getItem(title))
@@ -80,7 +72,12 @@ function decryption(password) {
     AESDecrypt(ciphertext, password).then(plaintext => {
         document.getElementById("verification").style.display = "none";
         let verificationElement = document.getElementById('verification');
-        let htmlText =  marked.parse(plaintext);
+        let htmlText;
+        if (/</.test(plaintext)) {
+            htmlText = plaintext;   // 有 HTML，直接用
+        } else {
+            htmlText = marked.parse(plaintext); // 纯 Markdown
+        }
         verificationElement.insertAdjacentHTML('afterend', htmlText);
         if (localStorage.getItem(title) !==password)localStorage.setItem(title, password);
     }).catch(error => {
