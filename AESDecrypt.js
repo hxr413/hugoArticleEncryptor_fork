@@ -74,18 +74,17 @@ function decryption(password) {
         document.getElementById("verification").style.display = "none";
         let verificationElement = document.getElementById('verification');
         
-        // 智能判断内容类型
-        let htmlText;
-        const trimmedPlaintext = plaintext.trim();
+        // Marked.js 默认支持 HTML 和 Markdown 混杂
+        // 配置 marked 允许 HTML（这是默认行为）
+        marked.setOptions({
+            breaks: true,        // 支持 GitHub 风格的换行
+            gfm: true,          // 启用 GitHub Flavored Markdown
+            sanitize: false,    // 不清理 HTML（允许原始 HTML）
+            pedantic: false
+        });
         
-        // 如果内容以 HTML 标签开始，直接作为 HTML 插入
-        if (trimmedPlaintext.startsWith('<')) {
-            htmlText = plaintext;
-        } 
-        // 否则作为 Markdown 解析
-        else {
-            htmlText = marked.parse(plaintext);
-        }
+        // 直接用 marked 解析，它会保留 HTML 标签
+        let htmlText = marked.parse(plaintext);
         
         verificationElement.insertAdjacentHTML('afterend', htmlText);
         
