@@ -1,6 +1,6 @@
 # hugoArticleEncryptor
 
-English | [简体中文](https://github.com/hotjuicew/hugoArticleEncryptor/blob/master/README-zh_CN.md)
+English | [简体中文](https://github.com/hxr413/hugoArticleEncryptor_fork/blob/master/README-zh_CN.md)
 
 hugoArticleEncryptor is a tool for encrypting Hugo articles. It is a Golang version of ⭐[Hugo Encryptor](https://github.com/Li4n0/hugo_encryptor).
 It uses the AES-GCM algorithm to encrypt the entire Hugo article, and decrypts the content after the user enters the correct password.
@@ -63,7 +63,7 @@ $ python3 -m http.server -b 0.0.0.0 -d public 1313
 
 #### Configuration on Platforms like Vercel and Netlify
 
-1.Copy [build.sh](https://github.com/hotjuicew/hugoArticleEncryptor/blob/master/exampleSite/build.sh)to your blog project folder.
+1.Copy [build.sh](https://github.com/hxr413/hugoArticleEncryptor_fork/blob/master/exampleSite/build.sh)to your blog project folder.
 
 2.Set the build command to `sh build.sh`
 
@@ -93,3 +93,4 @@ $ python3 -m http.server -b 0.0.0.0 -d public 1313
 ⚠️ Important Security Note: Protecting Your Blog Code ⚠️
 
 To ensure the security and privacy of your blog content, we highly recommend keeping your blog code in a **private repository**.
+

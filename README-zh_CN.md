@@ -1,6 +1,6 @@
 # hugoArticleEncryptor
 
-[English](https://github.com/hotjuicew/hugoArticleEncryptor/blob/master/README.md) | 简体中文
+[English](https://github.com/hxr413/hugoArticleEncryptor_fork/blob/master/README.md) | 简体中文
 
 hugoArticleEncryptor 是一个 hugo 文章加密工具。是 ⭐[Hugo Encryptor](https://github.com/Li4n0/hugo_encryptor)的 go 版本。
 使用 AES-GCM 算法对整个 hugo 文章进行加密，在用户输入正确的口令之后解密内容。
@@ -62,7 +62,7 @@ $ python3 -m http.server -b 0.0.0.0 -d public 1313
 
 #### Vercel、Netlify 等平台配置
 
-1.将[build.sh](https://github.com/hotjuicew/hugoArticleEncryptor/blob/master/exampleSite/build.sh)复制到你的博客项目文件夹下
+1.将[build.sh](https://github.com/hxr413/hugoArticleEncryptor_fork/blob/master/exampleSite/build.sh)复制到你的博客项目文件夹下
 
 2.Build command: `sh build.sh`
 
@@ -92,3 +92,4 @@ $ python3 -m http.server -b 0.0.0.0 -d public 1313
 ⚠️ 重要安全提示：保护您的博客代码 ⚠️
 
 为了确保您博客内容的安全性和隐私性，强烈建议将您的博客代码保存在**私人存储库**中。
+
