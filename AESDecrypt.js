@@ -61,9 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // 为所有提交按钮绑定事件
-  document.querySelectorAll(".secret-submit").forEach((button) => {
-    button.addEventListener("click", function (event) {
+  // 为所有表单绑定提交事件
+  document.querySelectorAll(".password-form").forEach((form) => {
+    form.addEventListener("submit", function (event) {
       event.preventDefault();
       checkPassword(event);
     });
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function checkPassword(event) {
-  // 从按钮找到父容器
+  // 从表单找到父容器
   const container = event.target.closest(".verification-container");
   const passwordInput = container.querySelector('input[name="password"]');
   const password = passwordInput.value;
