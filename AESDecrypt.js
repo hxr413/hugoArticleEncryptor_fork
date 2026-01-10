@@ -48,44 +48,59 @@ function hexToBytes(hexString) {
 }
 
 console.log("js load");
-// Marked.js 默认支持 HTML 和 Markdown 混杂
-// 配置 marked 允许 HTML（这是默认行为）
-marked.setOptions({
-  breaks: true, // 支持 GitHub 风格的换行
-  gfm: true, // 启用 GitHub Flavored Markdown
-  sanitize: false, // 不清理 HTML（允许原始 HTML）
-  pedantic: false,
+let title = document.title;
+
+// 页面加载时，尝试用存储的密码解密所有加密块
+document.addEventListener("DOMContentLoaded", function () {
+  if (localStorage.getItem(title) !== null) {
+    const savedPassword = localStorage.getItem(title);
+    document
+      .querySelectorAll(".verification-container")
+      .forEach((container) => {
+        decryption(savedPassword, container);
+      });
+  }
+
+  // 为所有提交按钮绑定事件
+  document.querySelectorAll(".secret-submit").forEach((button) => {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      checkPassword(event);
+    });
+  });
 });
 
-document.addEventListener("click", function (e) {
-  if (!e.target.classList.contains("secret-submit")) return;
+function checkPassword(event) {
+  // 从按钮找到父容器
+  const container = event.target.closest(".verification-container");
+  const passwordInput = container.querySelector('input[name="password"]');
+  const password = passwordInput.value;
+  decryption(password, container);
+}
 
-  e.preventDefault();
-
-  const block = e.target.closest(".secret-block");
-  const password = block.querySelector(".password-input").value;
-
-  decryptBlock(block, password);
-});
-
-function decryptBlock(block, password) {
-  const secretElement = block.querySelector(".secret");
-  const verificationElement = block.querySelector(".verification");
-
-  // 用 textContent 取密文
-  const ciphertext = secretElement.textContent.trim();
+function decryption(password, container) {
+  let secretElement = container.querySelector(".secret");
+  // 关键修复：使用 textContent 而不是 innerText
+  let ciphertext = secretElement.textContent.trim();
 
   AESDecrypt(ciphertext, password)
     .then((plaintext) => {
-      // 隐藏输入区
-      verificationElement.style.display = "none";
+      container.style.display = "none";
 
-      // 解析 Markdown + HTML
-      const html = marked.parse(plaintext);
-      verificationElement.insertAdjacentHTML("afterend", html);
+      // Marked.js 默认支持 HTML 和 Markdown 混杂
+      // 配置 marked 允许 HTML（这是默认行为）
+      marked.setOptions({
+        breaks: true, // 支持 GitHub 风格的换行
+        gfm: true, // 启用 GitHub Flavored Markdown
+        sanitize: false, // 不清理 HTML（允许原始 HTML）
+        pedantic: false,
+      });
 
-      // 记住密码（同一页面通用）
-      const title = document.title;
+      // 直接用 marked 解析，它会保留 HTML 标签
+      let htmlText = marked.parse(plaintext);
+
+      container.insertAdjacentHTML("afterend", htmlText);
+
       if (localStorage.getItem(title) !== password) {
         localStorage.setItem(title, password);
       }
