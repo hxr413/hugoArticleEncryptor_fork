@@ -80,23 +80,25 @@ function checkPassword(event) {
 
 function decryption(password, container) {
   let secretElement = container.querySelector(".secret");
-  // 关键修复：使用 textContent 而不是 innerText
+  // 关键修复：确保获取的是当前容器内的密文
   let ciphertext = secretElement.textContent.trim();
+
+  // 如果已经解密过（容器已隐藏），跳过
+  if (container.style.display === "none") {
+    return;
+  }
 
   AESDecrypt(ciphertext, password)
     .then((plaintext) => {
       container.style.display = "none";
 
-      // Marked.js 默认支持 HTML 和 Markdown 混杂
-      // 配置 marked 允许 HTML（这是默认行为）
       marked.setOptions({
-        breaks: true, // 支持 GitHub 风格的换行
-        gfm: true, // 启用 GitHub Flavored Markdown
-        sanitize: false, // 不清理 HTML（允许原始 HTML）
+        breaks: true,
+        gfm: true,
+        sanitize: false,
         pedantic: false,
       });
 
-      // 直接用 marked 解析，它会保留 HTML 标签
       let htmlText = marked.parse(plaintext);
 
       container.insertAdjacentHTML("afterend", htmlText);
