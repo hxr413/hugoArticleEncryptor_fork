@@ -83,21 +83,26 @@ func getData(path string) {
 	if secretElements.Length() == 0 {
 		return
 	}
-	passwordAttr, _ := secretElements.Attr("password")
-	innerText, err := secretElements.Html()
-	if err != nil {
-		log.Println("Error getting inner HTML:", err)
-		return
-	}
 
-	//在html变量中删除password属性，并且删除innerText
-	secretElements.RemoveAttr("password")
-	encryptedPassword := crypto.GetEncryptedPassword(passwordAttr)
-	encryptedContent, err := crypto.AESEncrypt(innerText, encryptedPassword)
-	if err != nil {
-		log.Fatal("crypto.AESEncrypt(innerText, encryptedPassword) gets err", err)
-	}
-	secretElements.SetText(encryptedContent)
+	secretElements.Each(func(i int, s *goquery.Selection) {
+		passwordAttr, _ := s.Attr("password")
+		innerText, err := s.Html()
+		if err != nil {
+			log.Println("Error getting inner HTML:", err)
+			return
+		}
+
+		//在html变量中删除password属性，并且删除innerText
+		s.RemoveAttr("password")
+		encryptedPassword := crypto.GetEncryptedPassword(passwordAttr)
+		encryptedContent, err := crypto.AESEncrypt(innerText, encryptedPassword)
+		if err != nil {
+			log.Println("crypto.AESEncrypt gets err", err)
+			return
+		}
+		s.SetText(encryptedContent)
+	})
+
 	//把修改后的HTML内容写入源文件
 	newHtml, err := doc.Html()
 	if err != nil {
